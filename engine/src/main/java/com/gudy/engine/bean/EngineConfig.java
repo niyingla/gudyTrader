@@ -127,13 +127,15 @@ public class EngineConfig {
         //存到撮合handler
         final BaseHandler matchHandler = new StockMatchHandler(orderBookMap);
 
-        //3.发布处理器
+        //3.发布处理器 key 柜台id value 发布数据
         ShortObjectHashMap<List<MatchData>> matcherEventMap = new ShortObjectHashMap<>();
+        //查询所有会员id （对应的就是 柜台id）
         for (short id : db.queryAllMemberIds()) {
             //放入撮合
             matcherEventMap.put(id, Lists.newArrayList());
         }
-        //
+
+        //创建发布行情处理器
         final BaseHandler pubHandler = new L1PubHandler(matcherEventMap, this);
 
 
