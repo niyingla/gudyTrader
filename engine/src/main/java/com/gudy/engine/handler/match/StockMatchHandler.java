@@ -17,6 +17,13 @@ public class StockMatchHandler extends BaseHandler {
     @NonNull
     private final IntObjectHashMap<IOrderBook> orderBookMap;
 
+    /**
+     * 撮合事件
+     * @param cmd
+     * @param sequence
+     * @param endOfBatch
+     * @throws Exception
+     */
     @Override
     public void onEvent(RbCmd cmd, long sequence, boolean endOfBatch) throws Exception {
         //风控未通过

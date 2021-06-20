@@ -204,40 +204,50 @@ public class GOrderBookImpl implements IOrderBook {
 
     @Override
     public void fillSells(int size, L1MarketData data) {
+        // 0不用填
         if (size == 0) {
             data.sellSize = 0;
             return;
         }
 
         int i = 0;
+        //遍历对应Bucket集合
         for (IOrderBucket bucket : sellBuckets.values()) {
+            //设置几档价格数组
             data.sellPrices[i] = bucket.getPrice();
+            //设置几档量数组
             data.sellVolumes[i] = bucket.getTotalVolume();
             if (++i == size) {
                 break;
             }
         }
 
+        //买卖实际档位数量
         data.sellSize = i;
 
     }
 
     @Override
     public void fillBuys(int size, L1MarketData data) {
+        // 0不用填
         if (size == 0) {
             data.buySize = 0;
             return;
         }
 
         int i = 0;
+        //遍历对应Bucket集合
         for (IOrderBucket bucket : buyBuckets.values()) {
+            //设置几档价格数组
             data.buyPrices[i] = bucket.getPrice();
+            //设置几档量数组
             data.buyVolumes[i] = bucket.getTotalVolume();
             if (++i == size) {
                 break;
             }
         }
 
+        //买卖实际档位数量
         data.buySize = i;
     }
 

@@ -26,12 +26,14 @@ import static thirdpart.bean.MsgConstants.NORMAL;
 @RequiredArgsConstructor
 public class L1PubHandler extends BaseHandler {
     /***
-     * 发布
+     * 发布时间间隔
      */
-
     public static final int HQ_PUB_RATE = 1000;
 
 
+    /**
+     * key 柜台id value 发送数据（随着行情发送）
+     */
     @NonNull
     private final ShortObjectHashMap<List<MatchData>> matcherEventMap;
 
@@ -40,7 +42,7 @@ public class L1PubHandler extends BaseHandler {
 
 
     /**
-     * 接受时间
+     * 接受事件
      * @param cmd
      * @param sequence
      * @param endOfBatch
@@ -52,7 +54,7 @@ public class L1PubHandler extends BaseHandler {
 
         //下单、撤单请求
         if (cmdType == CmdType.NEW_ORDER || cmdType == CmdType.CANCEL_ORDER) {
-            //循环保存撮合结果
+            //循环克隆撮合结果到matcherEventMap
             for (MatchEvent e : cmd.matchEventList) {
                 //放入撮合成功集合
                 matcherEventMap.get(e.mid).add(e.copy());
@@ -81,7 +83,10 @@ public class L1PubHandler extends BaseHandler {
                 if (CollectionUtils.isEmpty(s.getTwo())) {
                     continue;
                 }
+                //序列化数据
                 byte[] serialize = config.getBodyCodec().serialize(s.getTwo().toArray(new MatchData[0]));
+
+                //推送总线数据
                 pubData(serialize, s.getOne(), MATCH_ORDER_DATA);
 
                 //清空已发送数据
@@ -94,6 +99,9 @@ public class L1PubHandler extends BaseHandler {
 
     }
 
+    /**
+     * 约定这个（柜台）地址 就是五档行情
+     */
     public static final short HQ_ADDRESS = -1;
 
     /**

@@ -74,8 +74,12 @@ public class EngineCore {
 
         //2. 设置处理事件handle 并制定顺序
         // 前置风控 --> 撮合 --> 发布数据
-        disruptor.handleEventsWith(riskHandler)
+        disruptor
+                //风控
+                .handleEventsWith(riskHandler)
+                //撮合
                 .then(matchHandler)
+                //发布行情
                 .then(pubHandler);
 
         //3.启动

@@ -101,7 +101,9 @@ public class EngineConfig {
     private IBusSender busSender;
 
     private void initPub() {
+        //创建总线消息发送类
         busSender = new MqttBusSender(pubIp, pubPort, msgCodec, vertx);
+        //启动链接
         busSender.startup();
     }
 
@@ -120,14 +122,18 @@ public class EngineConfig {
 
         //2.撮合处理器(订单簿*****) 撮合/提供行情查询
         IntObjectHashMap<IOrderBook> orderBookMap = new IntObjectHashMap<>();
+        //每个股票代码都定义订单簿
         db.queryAllStockCode().forEach(code -> orderBookMap.put(code, new GOrderBookImpl(code)));
+        //存到撮合handler
         final BaseHandler matchHandler = new StockMatchHandler(orderBookMap);
 
         //3.发布处理器
         ShortObjectHashMap<List<MatchData>> matcherEventMap = new ShortObjectHashMap<>();
         for (short id : db.queryAllMemberIds()) {
+            //放入撮合
             matcherEventMap.put(id, Lists.newArrayList());
         }
+        //
         final BaseHandler pubHandler = new L1PubHandler(matcherEventMap, this);
 
 
