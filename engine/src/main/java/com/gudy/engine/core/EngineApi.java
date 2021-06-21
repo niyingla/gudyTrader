@@ -45,6 +45,9 @@ public class EngineApi {
 
 
     /**
+     * EventTranslatorOneArg event事件转化类
+     * 实现中 需要将参数设置到event对象中 完成数据组装转换
+     * 会将
      * 委托trans
      */
     private static final EventTranslatorOneArg<RbCmd, OrderCmd> NEW_ORDER_TRANSLATOR = (rbCmd, seq, newOrder) -> {
@@ -75,7 +78,7 @@ public class EngineApi {
     };
 
     /**
-     * 行情发送
+     * 行情发送trans
      */
     private static final EventTranslatorOneArg<RbCmd, OrderCmd> HQ_PUB_TRANSLATOR = (rbCmd, seq, hqPub) -> {
         rbCmd.command = CmdType.HQ_PUB;

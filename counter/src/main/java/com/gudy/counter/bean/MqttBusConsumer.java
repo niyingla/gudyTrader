@@ -12,7 +12,6 @@ import org.apache.commons.lang3.ArrayUtils;
 import thirdpart.bean.CommonMsg;
 import thirdpart.checksum.ICheckSum;
 import thirdpart.codec.IMsgCodec;
-import thirdpart.codec.MsgCodec;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -54,15 +53,25 @@ public class MqttBusConsumer {
     public static final String INNER_MATCH_DATA_ADDR = "match_data_addr";
 
 
+    /**
+     * 链接总线
+     * @param vertx
+     * @param busPort
+     * @param busIp
+     */
     private void mqttConnect(Vertx vertx, int busPort, String busIp) {
         MqttClient mqttClient = MqttClient.create(vertx);
+        //链接并设置异步处理hand
         mqttClient.connect(busPort, busIp, res -> {
             if (res.succeeded()) {
                 log.info("connect mqtt bus succeed");
                 Map<String, Integer> topoic = Maps.newHashMap();
+                //接受地址 柜台id
                 topoic.put(recvAddr, MqttQoS.AT_LEAST_ONCE.value());
+                //行情固定地址
                 topoic.put(HQ_ADDR, MqttQoS.AT_LEAST_ONCE.value());
 
+                //订阅消息
                 mqttClient.subscribe(topoic)
                         .publishHandler(h -> {
                             CommonMsg msg = msgCodec.decodeFromBuffer(h.payload());
@@ -83,10 +92,7 @@ public class MqttBusConsumer {
                                 } else {
                                     log.error("recv unknown msgType:{}", msg);
                                 }
-
                             }
-
-
                         });
             } else {
                 log.error("connect mqtt bus failed");
