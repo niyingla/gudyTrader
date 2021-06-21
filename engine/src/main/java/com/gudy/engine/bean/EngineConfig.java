@@ -1,6 +1,5 @@
 package com.gudy.engine.bean;
 
-import com.alipay.remoting.exception.CodecException;
 import com.alipay.sofa.jraft.rhea.client.DefaultRheaKVStore;
 import com.alipay.sofa.jraft.rhea.client.RheaKVStore;
 import com.alipay.sofa.jraft.rhea.options.PlacementDriverOptions;
@@ -35,7 +34,7 @@ import org.eclipse.collections.impl.map.mutable.primitive.ShortObjectHashMap;
 import thirdpart.bean.CmdPack;
 import thirdpart.bus.IBusSender;
 import thirdpart.bus.MqttBusSender;
-import thirdpart.checksum.IChecksum;
+import thirdpart.checksum.ICheckSum;
 import thirdpart.codec.IBodyCodec;
 import thirdpart.codec.IMsgCodec;
 import thirdpart.hq.MatchData;
@@ -67,7 +66,7 @@ public class EngineConfig {
     private IBodyCodec bodyCodec;
 
     @NonNull
-    private IChecksum cs;
+    private ICheckSum cs;
 
     @NonNull
     private IMsgCodec msgCodec;
@@ -211,7 +210,7 @@ public class EngineConfig {
                             CmdPack cmdPack = bodyCodec.deserialize(udpData.getBytes(), CmdPack.class);
                             //加入下单数据缓存
                             CmdPacketQueue.getInstance().cache(cmdPack);
-                        } catch (CodecException e) {
+                        } catch (Exception e) {
                             log.error("decode packet error", e);
                         }
                     } else {

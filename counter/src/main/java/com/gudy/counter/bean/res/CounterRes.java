@@ -1,6 +1,5 @@
 package com.gudy.counter.bean.res;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

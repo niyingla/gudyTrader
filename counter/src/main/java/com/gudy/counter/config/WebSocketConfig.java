@@ -16,10 +16,13 @@ import javax.annotation.PostConstruct;
 @Configuration
 public class WebSocketConfig {
 
+    //五档行情
     public static final String L1_MARKET_DATA_PREFIX = "l1-market-data";
 
+    //成交
     public final static String TRADE_NOTIFY_ADDR_PREFIX = "tradechange-";
 
+    //委托
     public final static String ORDER_NOTIFY_ADDR_PREFIX = "orderchange-";
 
 
@@ -37,7 +40,10 @@ public class WebSocketConfig {
                 .addOutboundPermitted(new PermittedOptions().setAddressRegex(TRADE_NOTIFY_ADDR_PREFIX + "[0-9]+"));
 
         SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+
+        //消息处理
         sockJSHandler.bridge(options, event -> {
+            //判断事件类型
             if (event.type() == BridgeEventType.SOCKET_CREATED) {
                 log.info("client : {} connected", event.socket().remoteAddress());
             } else if (event.type() == BridgeEventType.SOCKET_CLOSED) {
@@ -46,8 +52,10 @@ public class WebSocketConfig {
             event.complete(true);
         });
 
+        //接受总线消息
         Router router = Router.router(vertx);
         router.route("/eventbus/*").handler(sockJSHandler);
+        //设置监听端口
         vertx.createHttpServer().requestHandler(router).listen(config.getPubPort());
 
     }

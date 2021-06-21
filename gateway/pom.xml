@@ -27,7 +27,6 @@
             <artifactId>sofa-rpc-all</artifactId>
             <version>5.3.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/jaxen/jaxen -->
         <dependency>
             <groupId>jaxen</groupId>
             <artifactId>jaxen</artifactId>
@@ -45,7 +44,11 @@
             <artifactId>lombok</artifactId>
             <version>1.18.16</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.gudy</groupId>
+            <artifactId>common-part</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>

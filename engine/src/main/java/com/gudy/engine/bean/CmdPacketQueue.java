@@ -118,7 +118,11 @@ public class CmdPacketQueue {
                 for (KVEntry entry : kvEntries) {
                     byte[] value = entry.getValue();
                     if (ArrayUtils.isNotEmpty(value)) {
-                        collect.add(codec.deserialize(value, CmdPack.class));
+                        try {
+                            collect.add(codec.deserialize(value, CmdPack.class));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
                 //包号排序

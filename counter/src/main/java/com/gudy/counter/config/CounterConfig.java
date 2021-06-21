@@ -77,10 +77,12 @@ public class CounterConfig {
 
     private IMsgCodec msgCodec;
 
+    /**
+     * 初始化方法 检查器、编码、解码 总线链接
+     */
     @PostConstruct
     private void init() {
         Class<?> clz;
-
 
         try {
             clz = Class.forName(checkSumClass);

@@ -21,6 +21,7 @@ public class CounterApplication {
 
     @PostConstruct
     private void init(){
+        //初始化 uuid 雪花生成器
         GudyUuid.getInstance().init(counterConfig.getDataCenterId(), counterConfig.getWorkerId());
     }
 

@@ -40,3 +40,9 @@ counter:
   checksum: thirdpart.checksum.ByteCheckSum
   bodycodec: thirdpart.codec.BodyCodec
   msgcodec: thirdpart.codec.MsgCodec
+
+  pubip: 127.0.0.1
+  pubport: 1883
+
+  subbusip: 127.0.0.1
+  subbusport: 1884

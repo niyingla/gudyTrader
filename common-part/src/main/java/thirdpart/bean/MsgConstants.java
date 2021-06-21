@@ -50,4 +50,5 @@ public class MsgConstants {
 
     public static final int OFF = 0;
 
+    public static final int MULTI_FACTOR = 10000;
 }
