@@ -97,7 +97,7 @@ public class OrderServiceImpl implements IOrderService {
                 return false;
             }
 
-            //发送
+            //发送总线 MatchDataConsumer 消费
             config.getVertx().eventBus().send(ORDER_DATA_CACHE_ADDR, Buffer.buffer(serialize));
 
 
@@ -124,6 +124,7 @@ public class OrderServiceImpl implements IOrderService {
 
         log.info("recv cancel order :{}", orderCmd);
 
+        //发送网关
         gatewayConn.sendOrder(orderCmd);
         return true;
     }

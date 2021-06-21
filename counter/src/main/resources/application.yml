@@ -41,8 +41,11 @@ counter:
   bodycodec: thirdpart.codec.BodyCodec
   msgcodec: thirdpart.codec.MsgCodec
 
+  #委托终端通讯
   pubip: 127.0.0.1
   pubport: 1883
 
+
+  #总线订阅ip
   subbusip: 127.0.0.1
-  subbusport: 1884
+  subbusport: 1883

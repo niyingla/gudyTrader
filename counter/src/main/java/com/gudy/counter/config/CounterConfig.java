@@ -31,7 +31,7 @@ public class CounterConfig {
     private long workerId;
 /////////////////////////////////////////////////////
 
-    /////////////////////websocket配置////////////////////////////////
+    /////////////////////和委托终端通讯 websocket配置////////////////////////////////
     @Value("${counter.pubport}")
     private int pubPort;
 
@@ -103,7 +103,7 @@ public class CounterConfig {
         }
 
 
-        //初始化总线连接
+        //初始化总线数据消费连接 接受行情、委托信息
         new MqttBusConsumer(subBusIp, subBusPort, String.valueOf(id), msgCodec, cs, vertx).startup();
 
     }

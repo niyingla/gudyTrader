@@ -18,6 +18,10 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class TcpDirectSender {
 
+    /**
+     * tcp目标发送工具  （发送到网关 ）
+     */
+
     @NonNull
     private String ip;
 

@@ -26,6 +26,10 @@ public class WebSocketConfig {
     public final static String ORDER_NOTIFY_ADDR_PREFIX = "orderchange-";
 
 
+    /**
+     * 1 委托和成交数据 柜台会通知终端 收到通知后 终端自己去取
+     * 2 行情数据 定时拉取
+     */
     @Autowired
     private CounterConfig config;
 
@@ -35,13 +39,17 @@ public class WebSocketConfig {
 
         //只允许成交 委托的变动通过websocket总线往外发送
         BridgeOptions options = new BridgeOptions()
+                //放行进来请求 行情请求
                 .addInboundPermitted(new PermittedOptions().setAddress(L1_MARKET_DATA_PREFIX))
-                .addOutboundPermitted(new PermittedOptions().setAddressRegex(ORDER_NOTIFY_ADDR_PREFIX + "[0-9]+"  ))
+                //放行出去请求 委托通知
+                .addOutboundPermitted(new PermittedOptions().setAddressRegex(ORDER_NOTIFY_ADDR_PREFIX + "[0-9]+"))
+                //放行出去请求 成交通知
                 .addOutboundPermitted(new PermittedOptions().setAddressRegex(TRADE_NOTIFY_ADDR_PREFIX + "[0-9]+"));
 
+        //创建webSocket处理器
         SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
 
-        //消息处理
+        //消息处理 1 连接设置 2 时间处理 （这里只是简单打印）
         sockJSHandler.bridge(options, event -> {
             //判断事件类型
             if (event.type() == BridgeEventType.SOCKET_CREATED) {
@@ -54,6 +62,7 @@ public class WebSocketConfig {
 
         //接受总线消息
         Router router = Router.router(vertx);
+        //指定socket url
         router.route("/eventbus/*").handler(sockJSHandler);
         //设置监听端口
         vertx.createHttpServer().requestHandler(router).listen(config.getPubPort());
