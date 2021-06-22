@@ -157,8 +157,10 @@ public class SeqConfig {
 
             //设置消费者链接处理器
             consumerConfig.setOnConnect(Lists.newArrayList(new FetchChannelListener(consumerConfig)));
+            //获取引用代理类
+            IFetchService fetchService = consumerConfig.refer();
             //当前循环的链接放入map
-            fetchServiceMap.put(url, consumerConfig.refer());
+            fetchServiceMap.put(url, fetchService);
         }
 
         //2.定时抓取数据的任务

@@ -149,12 +149,9 @@ public class FetchTask extends TimerTask {
                     config.getMulticastIp(),
                     null
             );
-
         } catch (Exception e) {
             log.error("encode cmd packet error", e);
         }
-
-
     }
 
     /**
@@ -190,6 +187,7 @@ public class FetchTask extends TimerTask {
      * @return
      */
     private long getPacketNoFromStore() {
+        //获取分布式数据库中存的序号
         final byte[] bPacketNo = config.getNode().getRheaKVStore().bGet(PACKET_NO_KEY);
         //默认值 0
         long packetNo = 0;
@@ -272,6 +270,7 @@ public class FetchTask extends TimerTask {
 
         //推荐~~
         List<OrderCmd> msgs = Lists.newArrayList();
+        //循环代理引用类 获取数据
         fetchServiceMap.values().forEach(t -> {
             //抓取数据
             List<OrderCmd> orderCmds = t.fetchData();

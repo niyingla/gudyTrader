@@ -195,7 +195,7 @@ public class EngineConfig {
         //委托指令处理器
         CmdPacketQueue.getInstance().init(orderKvStore, bodyCodec, engineApi);
 
-        //组播 允许多个Socket接收同一份数据
+        //组播接受 允许多个Socket接收同一份数据
         DatagramSocket socket = vertx.createDatagramSocket(new DatagramSocketOptions());
         //监听数据包
         socket.listen(orderRecvPort, "0.0.0.0", asyncRes -> {

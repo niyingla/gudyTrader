@@ -39,7 +39,7 @@ public class TcpDirectSender {
     private volatile NetSocket socket;
 
     public void startup() {
-        //开启与目标的链接
+        //开启与目标的链接 (创建一个TCP客户端 handle方法会得到 NetSocket)
         vertx.createNetClient().connect(port, ip, new ClientConnHandler());
 
         //单独启动一个线程取阻塞队列中的数据写入网关

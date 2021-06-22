@@ -16,6 +16,8 @@ public class ConnHandler implements Handler<NetSocket> {
 
 
     /**
+     * 处理柜台过来的 cmd请求handler
+     *
      * RecordParser https://blog.csdn.net/neosmith/article/details/93724102
      * Vert.x中只有一个二进制协议解析辅助类，即RecordParser，可以很好的解决粘包/拆包问题。它有两种工作模式，
      * 一是delimited mode, 即通过固定分隔符分隔数据包，这种用的其实比较少；

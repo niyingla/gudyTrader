@@ -13,11 +13,14 @@ import java.util.List;
 @ToString
 public class CmdPack implements Serializable {
     /**
-     * 发送包
+     * 发送包 序号
      */
 
     private long packNo;
 
+    /**
+     * 下单命令
+     */
     private List<OrderCmd> orderCmds;
 
 }

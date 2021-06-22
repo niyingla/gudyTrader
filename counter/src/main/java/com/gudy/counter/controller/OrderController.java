@@ -73,8 +73,7 @@ public class OrderController {
             @RequestParam long volume,
             @RequestParam byte ordertype
     ) {
-        if (orderService.sendOrder(uid, type, timestamp, code, direction, price,
-                volume, ordertype)) {
+        if (orderService.sendOrder(uid, type, timestamp, code, direction, price, volume, ordertype)) {
             return new CounterRes(SUCCESS, "save success", null);
         } else {
             return new CounterRes(FAIL, "save failed", null);

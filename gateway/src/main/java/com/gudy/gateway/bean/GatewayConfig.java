@@ -92,6 +92,7 @@ public class GatewayConfig {
                 .setRef(() -> OrderCmdContainer.getInstance().getAll())
                 //绑定配置
                 .setServer(rpcConfig);
+        //发布服务
         providerConfig.export();
 
         log.info("gateway startup fetchServ success at port : {}", fetchServPort);
@@ -102,7 +103,7 @@ public class GatewayConfig {
      * 初始化接收端
      */
     private void initRecv() {
-        //创建tcp服务端
+        //创建tcp服务端（柜台机 会来链接）
         NetServer server = vertx.createNetServer();
         //设置链接处理器
         server.connectHandler(new ConnHandler(this));
