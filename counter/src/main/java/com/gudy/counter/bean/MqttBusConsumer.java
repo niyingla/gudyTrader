@@ -24,12 +24,21 @@ import static thirdpart.bean.MsgConstants.MATCH_ORDER_DATA;
 
 public class MqttBusConsumer {
 
+    /**
+     * 总线ip
+     */
     @NonNull
     private String busIp;
 
+    /**
+     * 总线端口
+     */
     @NonNull
     private int busPort;
 
+    /**
+     * 数柜台id
+     */
     @NonNull
     private String recvAddr;
 
@@ -46,6 +55,9 @@ public class MqttBusConsumer {
         mqttConnect(vertx, busPort, busIp);
     }
 
+    /**
+     * 行情地址
+     */
     private final static String HQ_ADDR = "-1";
 
     public static final String INNER_MARKET_DATA_CACHE_ADDR = "l1_market_data_cache_addr";
@@ -54,7 +66,7 @@ public class MqttBusConsumer {
 
 
     /**
-     * 链接总线
+     * 链接总线 （接受行情、委托信息）
      * @param vertx
      * @param busPort
      * @param busIp
@@ -65,16 +77,18 @@ public class MqttBusConsumer {
         mqttClient.connect(busPort, busIp, res -> {
             if (res.succeeded()) {
                 log.info("connect mqtt bus succeed");
+                //订阅地址信息 map
                 Map<String, Integer> topoic = Maps.newHashMap();
                 //接受地址 柜台id
                 topoic.put(recvAddr, MqttQoS.AT_LEAST_ONCE.value());
                 //行情固定地址
                 topoic.put(HQ_ADDR, MqttQoS.AT_LEAST_ONCE.value());
-
                 //订阅消息
                 mqttClient.subscribe(topoic)
                         .publishHandler(h -> {
+                            //获取消息内容
                             CommonMsg msg = msgCodec.decodeFromBuffer(h.payload());
+                            //校验数据
                             if (msg.getChecksum() != (cs.getChecksum(msg.getBody()))) {
                                 return;
                             }
@@ -85,9 +99,13 @@ public class MqttBusConsumer {
                                 short msgType = msg.getMsgType();
                                 // 帮助去重，为了演示方便 不做校验
 //                                long msgNo = msg.getMsgNo();
+                                //撮合数据类型
                                 if (msgType == MATCH_ORDER_DATA) {
+                                    //放到对应总线 总线会有处理器消息 解耦 MatchDataConsumer
                                     vertx.eventBus().send(INNER_MATCH_DATA_ADDR, Buffer.buffer(body));
+                                //行情数据类型
                                 } else if (msgType == MATCH_HQ_DATA) {
+                                    //放到对应总线 总线会有处理器消息 解耦 MarketDataConsumer
                                     vertx.eventBus().send(INNER_MARKET_DATA_CACHE_ADDR, Buffer.buffer(body));
                                 } else {
                                     log.error("recv unknown msgType:{}", msg);
@@ -101,10 +119,12 @@ public class MqttBusConsumer {
 
         mqttClient.closeHandler(h -> {
             try {
+                //重连间隔
                 TimeUnit.SECONDS.sleep(5);
             } catch (Exception e) {
                 log.error(e);
             }
+            //发起重连
             mqttConnect(vertx, busPort, busIp);
         });
     }

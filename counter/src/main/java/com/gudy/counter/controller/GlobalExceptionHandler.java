@@ -14,13 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
-    public CounterRes exceptionHandler(
-            HttpServletRequest request,Exception e
-    ){
+    public CounterRes exceptionHandler(HttpServletRequest request,Exception e){
         log.error(e);
-        return new CounterRes(CounterRes.FAIL,
-                "发生错误",
-                null);
+        return new CounterRes(CounterRes.FAIL, "发生错误", null);
     }
 
 }
