@@ -41,7 +41,7 @@ public class StockMatchHandler extends BaseHandler {
      * @param cmd
      * @return
      */
-    private CmdResultCode processCmd(RbCmd cmd) {
+    private CmdResultCode  processCmd(RbCmd cmd) {
         switch (cmd.command) {
             case NEW_ORDER:
                 return orderBookMap.get(cmd.code).newOrder(cmd);

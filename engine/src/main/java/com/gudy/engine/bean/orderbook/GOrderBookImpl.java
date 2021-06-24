@@ -101,8 +101,8 @@ public class GOrderBookImpl implements IOrderBook {
 
     /**
      * 预撮合
-     * @param cmd
-     * @param matchingBuckets
+     * @param cmd 当前下单信息
+     * @param matchingBuckets 价格部分map
      * @return
      */
     private long preMatch(RbCmd cmd, NavigableMap<Long, IOrderBucket> matchingBuckets) {
@@ -114,7 +114,7 @@ public class GOrderBookImpl implements IOrderBook {
         }
 
         List<Long> emptyBuckets = Lists.newArrayList();
-        //循环可撮合Bucket
+        //循环可撮合Bucket 价格优先 从最低 往上撮合
         for (IOrderBucket bucket : matchingBuckets.values()) {
             //撮合符合的bucket  累加到 委托量已经撮合量       剩余委托量 下单信息 回调函数
             tVol += bucket.match(cmd.volume - tVol, cmd, order -> oidMap.remove(order.getOid()));
