@@ -14,8 +14,9 @@ import java.util.concurrent.atomic.AtomicLong;
 @Log4j2
 @RequiredArgsConstructor
 public class Node {
-
-    @NonNull
+    /**
+     * 分布式数据库配置
+     */
     private final RheaKVStoreOptions options;
 
     /**

@@ -63,7 +63,7 @@ public class MqttBusSender implements IBusSender {
         });
     }
 
-    ///////////////////////////////////////////////////////
+    /////////////////////////////MQTT发送者//////////////////////////
     private volatile MqttClient sender;
 
     /**

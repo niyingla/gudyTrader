@@ -31,7 +31,7 @@ public class MarketDataConsumer {
         //获取总线
         EventBus eventBus = config.getVertx().eventBus();
 
-        //撮合处理核心发过来的行情 进行消费
+        //撮合处理核心发过来的行情 进行消费(用于更新最新五档行情)
         eventBus.consumer(INNER_MARKET_DATA_CACHE_ADDR)
                 .handler(buffer -> {
                     Buffer body = (Buffer) buffer.body();
@@ -66,6 +66,7 @@ public class MarketDataConsumer {
 
 
         //委托终端行情处理器 接受五档行情请求 数据来自 WebSocketConfig 接受的 L1_MARKET_DATA_PREFIX
+        //用于回复五档行情求情
         eventBus.consumer(L1_MARKET_DATA_PREFIX)
                 .handler(h -> {
                     int code = Integer.parseInt(h.headers().get("code"));

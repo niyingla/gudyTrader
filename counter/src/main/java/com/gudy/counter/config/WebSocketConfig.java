@@ -57,6 +57,7 @@ public class WebSocketConfig {
             } else if (event.type() == BridgeEventType.SOCKET_CLOSED) {
                 log.info("client : {} closed", event.socket().remoteAddress());
             }
+            //标记为已完成
             event.complete(true);
         });
 

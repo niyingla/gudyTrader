@@ -44,6 +44,7 @@ public class MatchDataConsumer {
     @Autowired
     private CounterConfig config;
 
+    //下单时缓存订单信息的集合
     //<key 委托编号，value OrderCmd>
     private LongObjectHashMap<OrderCmd> oidOrderMap = new LongObjectHashMap<>();
 
@@ -66,7 +67,7 @@ public class MatchDataConsumer {
                 });
 
 
-        //接受客户端 撮合数据请求
+        //接受总线撮合数据请求
         eventBus.consumer(INNER_MATCH_DATA_ADDR)
                 .handler(buffer -> {
                     //数据长度判断

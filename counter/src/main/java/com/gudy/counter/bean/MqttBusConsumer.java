@@ -15,13 +15,13 @@ import thirdpart.codec.IMsgCodec;
 
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static thirdpart.bean.MsgConstants.MATCH_HQ_DATA;
 import static thirdpart.bean.MsgConstants.MATCH_ORDER_DATA;
 
 @RequiredArgsConstructor
 @Log4j2
-
 public class MqttBusConsumer {
 
     /**
@@ -77,7 +77,7 @@ public class MqttBusConsumer {
         mqttClient.connect(busPort, busIp, res -> {
             if (res.succeeded()) {
                 log.info("connect mqtt bus succeed");
-                //订阅地址信息 map
+                //订阅地址信息 map key 地址 value 次数 指定以下两个地址
                 Map<String, Integer> topoic = Maps.newHashMap();
                 //接受地址 柜台id
                 topoic.put(recvAddr, MqttQoS.AT_LEAST_ONCE.value());

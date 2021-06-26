@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 import com.gudy.counter.bean.res.StockInfo;
 import com.gudy.counter.util.DbUtil;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
@@ -15,6 +17,7 @@ import java.util.Map;
 
 @Log4j2
 @Component
+@DependsOn("counterConfig")
 public class StockCache {
 
     //Map<String,List<StockInfo>>

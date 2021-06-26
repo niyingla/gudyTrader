@@ -22,10 +22,9 @@ public class StockMatchHandler extends BaseHandler {
      * @param cmd
      * @param sequence
      * @param endOfBatch
-     * @throws Exception
      */
     @Override
-    public void onEvent(RbCmd cmd, long sequence, boolean endOfBatch) throws Exception {
+    public void onEvent(RbCmd cmd, long sequence, boolean endOfBatch) {
         //风控未通过
         if (cmd.resultCode.getCode() < 0) {
             return;

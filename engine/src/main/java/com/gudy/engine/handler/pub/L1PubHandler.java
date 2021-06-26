@@ -86,7 +86,7 @@ public class L1PubHandler extends BaseHandler {
                 //序列化数据
                 byte[] serialize = config.getBodyCodec().serialize(s.getTwo().toArray(new MatchData[0]));
 
-                //推送总线数据
+                //推送撮合数据
                 pubData(serialize, s.getOne(), MATCH_ORDER_DATA);
 
                 //清空已发送数据
@@ -122,7 +122,7 @@ public class L1PubHandler extends BaseHandler {
             return;
         }
 
-        //发布数据
+        //发布行情数据
         pubData(serialize, HQ_ADDRESS, MATCH_HQ_DATA);
 
     }

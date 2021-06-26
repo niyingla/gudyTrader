@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: counter
   datasource:
     url: jdbc:sqlite:d:/test.db
     driver-class-name: org.sqlite.JDBC
@@ -7,9 +9,6 @@ spring:
     port: 6379
     timeout: 6000ms
     password: 123456
-  application:
-    name: counter
-
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 #查询为空时 返回null
