@@ -67,7 +67,7 @@ public class MatchDataConsumer {
                 });
 
 
-        //接受总线撮合数据请求
+        //接受总线撮合数据请求 (修改数据库状态)
         eventBus.consumer(INNER_MATCH_DATA_ADDR)
                 .handler(buffer -> {
                     //数据长度判断

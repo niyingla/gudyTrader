@@ -40,7 +40,7 @@ public class FetchTask extends TimerTask {
             return;
         }
 
-        //获取数据
+        //循环网关节点 获取数据
         List<OrderCmd> cmds = collectAllOrders(fetchServiceMap);
         if (CollectionUtils.isEmpty(cmds)) {
             return;

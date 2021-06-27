@@ -113,7 +113,7 @@ public class SeqConfig {
     private class FetchChannelListener implements ChannelListener {
 
         @NonNull
-        private ConsumerConfig<IFetchService> config;
+        private ConsumerConfig<IFetchService> consumerConfig;
 
 
         /**
@@ -126,7 +126,7 @@ public class SeqConfig {
             String remoteAddr = channel.remoteAddress().toString();
             log.info("connect to gatewat : {}", remoteAddr);
             //保存当前链接
-            fetchServiceMap.put(remoteAddr, config.refer());
+            fetchServiceMap.put(remoteAddr, consumerConfig.refer());
         }
 
         @Override
@@ -141,7 +141,7 @@ public class SeqConfig {
     //1.从哪些网关抓取
     //2.通信方式
     private void startupFetch() {
-        //1.建立所有到网关的连接
+        //1.建立所有到网关的连接(根据配置链接地址 创建消费配置类 并获取调取引用放入集合)
         String[] urls = fetchurls.split(";");
         for (String url : urls) {
             //抓取处理配置

@@ -68,7 +68,7 @@ public class GatewayConfig {
     }
 
     public void startup() throws Exception {
-        //1.启动TCP服务监听
+        //1.启动TCP服务监听 （来自柜台机的请求）
         initRecv();
 
         //2.排队机交互
@@ -100,7 +100,7 @@ public class GatewayConfig {
     }
 
     /**
-     * 初始化接收端
+     * 初始化接收端 （来自柜台）
      */
     private void initRecv() {
         //创建tcp服务端（柜台机 会来链接）
