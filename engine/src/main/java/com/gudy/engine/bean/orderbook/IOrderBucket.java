@@ -40,7 +40,7 @@ public interface IOrderBucket extends Comparable<IOrderBucket> {
     void setPrice(long price);
 
     /**
-     *
+     * d当前桶 累计委托量
      * @return
      */
     long getTotalVolume();

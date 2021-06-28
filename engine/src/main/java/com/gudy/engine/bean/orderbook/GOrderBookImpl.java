@@ -52,24 +52,27 @@ public class GOrderBookImpl implements IOrderBook {
         // S 50 100  买单Buckets >=50 所有OrderBucket
         // B 40 200  卖单Buckets <=40 符合条件
 
-        //根据订单方向
+        //根据订单方向获取对手单数组
         NavigableMap<Long, IOrderBucket> subMatchBuckets = (cmd.direction == OrderDirection.SELL ? buyBuckets : sellBuckets)
                 //在方法调用返回此映射的键严格小于传入价格部分map
                 .headMap(cmd.price, true);
-        //预撮合
+        //预撮合 从对手下单桶匹配
         long tVolume = preMatch(cmd, subMatchBuckets);
         //撮合量 = 委托量
         if (tVolume == cmd.volume) {
             return CmdResultCode.SUCCESS;
         }
 
+        //有生成撮合订单
         final Order order = Order.builder()
                 .mid(cmd.mid)
                 .uid(cmd.uid)
                 .code(cmd.code)
                 .direction(cmd.direction)
                 .price(cmd.price)
+                //下单量
                 .volume(cmd.volume)
+                //累计撮合量
                 .tvolume(tVolume)
                 .oid(cmd.oid)
                 .timestamp(cmd.timestamp)

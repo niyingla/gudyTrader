@@ -19,6 +19,10 @@ import java.util.function.Consumer;
 @ToString
 public class GOrderBucketImpl implements IOrderBucket {
 
+    /**
+     * 同等价格集合
+     */
+
     //1.价格
     @Getter
     @Setter

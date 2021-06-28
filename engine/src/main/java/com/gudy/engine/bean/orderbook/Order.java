@@ -55,7 +55,7 @@ public final class Order {
     private long price;
 
     /**
-     * 量
+     * 委托量
      */
     private long volume;
 
